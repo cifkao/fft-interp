@@ -49,7 +49,7 @@ double *trig_interpolate(double const *input, size_t n){
   double complex *x = (double complex *)malloc(n_*sizeof(double complex));
   if(x==NULL) return NULL;
   double *out = (double *)malloc((n_+1)*sizeof(double));
-  if(out==NULL){ free(out); return NULL; }
+  if(out==NULL){ free(x); return NULL; }
   
   size_t i;
   for(i=0; i<n; ++i)
@@ -74,6 +74,7 @@ double *trig_interpolate(double const *input, size_t n){
     out[2*i]   = cimag(x[i])*mul/n_;
   }
 
+  free(x);
   return out;
 }
 
