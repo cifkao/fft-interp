@@ -41,15 +41,13 @@ int fft(double complex const *input, double complex *output, size_t n){
   return 1;
 }
 
-double *trig_interpolate(double const *input, size_t n){
+int trig_interpolate(double const *input, double *output, size_t n){
   // round up to a power of 2
   size_t n_ = 1;
   while(n_<n) n_ *= 2;
 
   double complex *x = (double complex *)malloc(n_*sizeof(double complex));
-  if(x==NULL) return NULL;
-  double *out = (double *)malloc((n_+1)*sizeof(double));
-  if(out==NULL){ free(x); return NULL; }
+  if(x==NULL) return 0;
   
   size_t i;
   for(i=0; i<n; ++i)
@@ -62,19 +60,18 @@ double *trig_interpolate(double const *input, size_t n){
   // Mr. Fourier
   if(!fft(x, x, n_)){
     free(x);
-    free(out);
-    return NULL;
+    return 0;
   }
   
   // extract coefficients
-  out[0] = creal(x[0])/n_;
+  output[0] = creal(x[0])/n_;
   for(i=1; i<=n_/2; ++i){
     int mul = 2-(i==n_/2);
-    out[2*i-1] = creal(x[i])*mul/n_;
-    out[2*i]   = cimag(x[i])*mul/n_;
+    output[2*i-1] = creal(x[i])*mul/n_;
+    output[2*i]   = cimag(x[i])*mul/n_;
   }
 
   free(x);
-  return out;
+  return 1;
 }
 

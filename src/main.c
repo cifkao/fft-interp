@@ -25,7 +25,11 @@ int main(){
   fgets(buff, sizeof(buff), stdin);
   sscanf(buff, "%lf", &spacing);
 
-  double *x = (double *)malloc(n*sizeof(double));
+  // round up to a power of 2
+  size_t n_ = 1;
+  while(n_<n) n_ *= 2;
+
+  double *x = (double *)malloc((n_+1)*sizeof(double));
 
   if(terminal) printf("Values:\n");
   for(i=0; i<n; ++i){
@@ -34,17 +38,13 @@ int main(){
 
   if(terminal) printf("\n");
 
-  double *y = trig_interpolate(x, n);
-
-  // round up to a power of 2
-  size_t n_ = 1;
-  while(n_<n) n_ *= 2;
+  trig_interpolate(x, x, n);
 
   double epsilon = 1e-9; // get rid of riddiculously small coefficients
-  printf("f(x) = %g", y[0]>epsilon ? y[0] : 0);
+  printf("f(x) = %g", x[0]>epsilon ? x[0] : 0);
   for(i=1; i<=n_/2; ++i){
-    double cos = y[2*i-1];
-    double sin = y[2*i];
+    double cos = x[2*i-1];
+    double sin = x[2*i];
     if(isnan(spacing)){ // spacing is 2pi/n
       if(fabs(cos)>epsilon)
         printf("%+g*cos(%g*x)", cos, ((float)i*n)/n_);
@@ -60,6 +60,5 @@ int main(){
   printf("\n");
 
   free(x);
-  free(y);
   return 0;
 }
