@@ -2,8 +2,8 @@
 #define FFT_INTERP_H
 
 /**
- * Performs a fourier transform on a vector of length n (must be a power
- * of 2). The output array may be the same as the input array.
+ * Performs a fast Fourier transform on a vector of length n (must be a
+ * power of 2). The output array may be the same as the input array.
  * Returns 0 if memory allocation fails.
  */
 int fft(double complex const *input, double complex *output, size_t n);
