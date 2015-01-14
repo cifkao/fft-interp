@@ -41,7 +41,7 @@ int main(){
   trig_interpolate(x, x, n);
 
   double epsilon = 1e-9; // get rid of riddiculously small coefficients
-  printf("f(x) = %g", x[0]>epsilon ? x[0] : 0);
+  printf("f(x) = %g", fabs(x[0])>epsilon ? x[0] : 0);
   for(i=1; i<=n_/2; ++i){
     double cos = x[2*i-1];
     double sin = x[2*i];
