@@ -7,6 +7,9 @@
 
 # define M_PI 3.14159265358979323846
 
+/**
+ * Reverses a binary number k of length n-1.
+ */
 size_t reverse(size_t k, size_t n){
   if(n<=2) return k;
   size_t h = n/2;
